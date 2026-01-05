@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Sean's Checklist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --morning-bg: #FFF8E7;
+      --morning-accent: #FF9500;
+      
+      --evening-bg: #E8EAF6;
+      --evening-accent: #5856D6;
+      
+      --text-dark: #1C1C1E;
+      --text-muted: #8E8E93;
+      --card-bg: #FFFFFF;
+      --success: #34C759;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: clamp(16px, 3.5vw, 20px);
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      transition: background-color 0.3s ease;
+    }
+
+    body.morning {
+      background: var(--morning-bg);
+    }
+
+    body.evening {
+      background: var(--evening-bg);
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: clamp(1rem, 3vw, 1.5rem) clamp(0.75rem, 2vw, 1rem) 2rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .header h1 {
+      font-size: clamp(1.75rem, 7vw, 2.25rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .date {
+      font-size: clamp(0.9rem, 3vw, 1.15rem);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Tab Switcher */
+    .tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      flex: 1;
+      padding: clamp(0.9rem, 3vw, 1.25rem);
+      border: none;
+      border-radius: clamp(14px, 4vw, 18px);
+      font-family: inherit;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.4rem, 1.5vw, 0.6rem);
+    }
+
+    .tab.morning-tab {
+      background: #FFF3D6;
+      color: #CC7700;
+    }
+
+    .tab.morning-tab.active {
+      background: var(--morning-accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+    }
+
+    .tab.evening-tab {
+      background: #D1D4F4;
+      color: #4644AA;
+    }
+
+    .tab.evening-tab.active {
+      background: var(--evening-accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(88, 86, 214, 0.4);
+    }
+
+    .tab-icon {
+      font-size: clamp(1.4rem, 4.5vw, 1.75rem);
+    }
+
+    /* Progress */
+    .progress-section {
+      background: var(--card-bg);
+      border-radius: clamp(16px, 4vw, 20px);
+      padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-label {
+      font-size: clamp(0.95rem, 3vw, 1.15rem);
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .progress-count {
+      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .progress-bar {
+      height: clamp(14px, 3.5vw, 18px);
+      background: #E5E5EA;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--success);
+      border-radius: 9px;
+      transition: width 0.4s ease;
+    }
+
+    /* Task List */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .task {
+      background: var(--card-bg);
+      border-radius: clamp(16px, 4vw, 20px);
+      padding: clamp(0.9rem, 2.5vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      gap: clamp(0.75rem, 2.5vw, 1.25rem);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      user-select: none;
+      min-height: clamp(72px, 18vw, 90px);
+    }
+
+    .task:hover {
+      transform: scale(1.01);
+    }
+
+    .task:active {
+      transform: scale(0.98);
+    }
+
+    .task.completed {
+      background: #E8F5E9;
+    }
+
+    .task-icon {
+      width: clamp(48px, 13vw, 64px);
+      height: clamp(48px, 13vw, 64px);
+      border-radius: clamp(14px, 3.5vw, 18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      flex-shrink: 0;
+    }
+
+    body.morning .task-icon {
+      background: #FFF3D6;
+    }
+
+    body.evening .task-icon {
+      background: #E8EAF6;
+    }
+
+    .task.completed .task-icon {
+      background: #C8E6C9;
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .task.completed .task-text {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .checkbox {
+      width: clamp(44px, 12vw, 56px);
+      height: clamp(44px, 12vw, 56px);
+      border: clamp(3px, 0.8vw, 4px) solid #D1D1D6;
+      border-radius: clamp(12px, 3vw, 16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .task.completed .checkbox {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .checkbox svg {
+      width: clamp(24px, 6vw, 32px);
+      height: clamp(24px, 6vw, 32px);
+      stroke: white;
+      stroke-width: 4;
+      fill: none;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .task.completed .checkbox svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* All Done Message */
+    .all-done {
+      text-align: center;
+      padding: 2rem;
+      display: none;
+    }
+
+    .all-done.visible {
+      display: block;
+    }
+
+    .all-done-icon {
+      font-size: clamp(3.5rem, 12vw, 5rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .all-done-text {
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    /* Reset Button */
+    .reset-section {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .reset-btn {
+      background: #F2F2F7;
+      border: none;
+      color: var(--text-muted);
+      padding: clamp(0.9rem, 2.5vw, 1.1rem) clamp(1.75rem, 5vw, 2.25rem);
+      border-radius: clamp(12px, 3vw, 16px);
+      font-family: inherit;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      background: #E5E5EA;
+      color: var(--text-dark);
+    }
+
+    /* Celebration */
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .celebrate {
+      animation: bounce 0.5s ease;
+    }
+
+    /* Disable hover effects on touch devices */
+    @media (hover: none) {
+      .task:hover {
+        transform: none;
+      }
+      .reset-btn:hover {
+        background: #F2F2F7;
+        color: var(--text-muted);
+      }
+    }
+  </style>
+</head>
+<body class="morning">
+  <div class="container">
+    <header class="header">
+      <h1>Sean's Checklist</h1>
+      <p class="date" id="currentDate"></p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab morning-tab active" onclick="switchTab('morning')">
+        <span class="tab-icon">☀️</span>
+        Morning
+      </button>
+      <button class="tab evening-tab" onclick="switchTab('evening')">
+        <span class="tab-icon">🌙</span>
+        Evening
+      </button>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label">Progress</span>
+        <span class="progress-count" id="progress-count">0 / 10</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="task-list" id="task-list"></div>
+
+    <div class="all-done" id="all-done">
+      <div class="all-done-icon">🎉</div>
+      <div class="all-done-text">All Done!</div>
+    </div>
+
+    <div class="reset-section">
+      <button class="reset-btn" onclick="resetCurrent()">Start Over</button>
+    </div>
+  </div>
+
+  <script>
+    const morningTasks = [
+      { text: 'Eat Breakfast', icon: '🍳' },
+      { text: 'Take Medicine', icon: '💊' },
+      { text: 'Put on Deodorant', icon: '🧴' },
+      { text: 'Get Dressed', icon: '👕' },
+      { text: 'Brush Teeth', icon: '🪥' },
+      { text: 'Wash Face', icon: '🧼' },
+      { text: 'Clean Glasses', icon: '👓' },
+      { text: 'Brush Hair', icon: '💇' },
+      { text: 'Put Lunch in Backpack', icon: '🎒' },
+      { text: 'Put Phone in Backpack', icon: '📱' }
+    ];
+
+    const eveningTasks = [
+      { text: 'Brush Teeth', icon: '🪥' },
+      { text: 'Wash Face', icon: '🧼' },
+      { text: 'Fix Lunch', icon: '🥪' },
+      { text: 'Get Papers Out of Folder', icon: '📄' },
+      { text: 'Take Medicine', icon: '💊' },
+      { text: 'Charge Phone', icon: '🔌' }
+    ];
+
+    let currentTab = 'morning';
+
+    const STORAGE_KEY = 'seans-checklist';
+
+    function getStorageKey() {
+      const today = new Date().toISOString().split('T')[0];
+      return `${STORAGE_KEY}-${today}`;
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(getStorageKey());
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      return {
+        morning: new Array(morningTasks.length).fill(false),
+        evening: new Array(eveningTasks.length).fill(false)
+      };
+    }
+
+    function saveState(state) {
+      localStorage.setItem(getStorageKey(), JSON.stringify(state));
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      document.body.className = tab;
+      
+      document.querySelector('.morning-tab').classList.toggle('active', tab === 'morning');
+      document.querySelector('.evening-tab').classList.toggle('active', tab === 'evening');
+      
+      render();
+    }
+
+    function toggleTask(index) {
+      const state = loadState();
+      state[currentTab][index] = !state[currentTab][index];
+      saveState(state);
+      render();
+    }
+
+    function render() {
+      const state = loadState();
+      const tasks = currentTab === 'morning' ? morningTasks : eveningTasks;
+      const completed = state[currentTab];
+      
+      const taskList = document.getElementById('task-list');
+      taskList.innerHTML = '';
+      
+      tasks.forEach((task, i) => {
+        const isCompleted = completed[i];
+        const div = document.createElement('div');
+        div.className = `task${isCompleted ? ' completed' : ''}`;
+        div.innerHTML = `
+          <div class="task-icon">${task.icon}</div>
+          <span class="task-text">${task.text}</span>
+          <div class="checkbox">
+            <svg viewBox="0 0 24 24">
+              <polyline points="4,12 10,18 20,6"></polyline>
+            </svg>
+          </div>
+        `;
+        div.addEventListener('click', () => toggleTask(i));
+        taskList.appendChild(div);
+      });
+      
+      const doneCount = completed.filter(Boolean).length;
+      const total = tasks.length;
+      const percent = (doneCount / total) * 100;
+      
+      document.getElementById('progress-count').textContent = `${doneCount} / ${total}`;
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+      
+      const allDone = document.getElementById('all-done');
+      if (doneCount === total) {
+        allDone.classList.add('visible', 'celebrate');
+        setTimeout(() => allDone.classList.remove('celebrate'), 500);
+      } else {
+        allDone.classList.remove('visible');
+      }
+    }
+
+    function resetCurrent() {
+      if (confirm('Start over?')) {
+        const state = loadState();
+        const tasks = currentTab === 'morning' ? morningTasks : eveningTasks;
+        state[currentTab] = new Array(tasks.length).fill(false);
+        saveState(state);
+        render();
+      }
+    }
+
+    function updateDate() {
+      const options = { weekday: 'long', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', options);
+    }
+
+    updateDate();
+    render();
+  </script>
+</body>
+</html>
