@@ -9,16 +9,343 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* Base morning/evening colors - overridden by themes */
       --morning-bg: #FFF8E7;
       --morning-accent: #FF9500;
-      
+      --morning-icon-bg: #FFF3D6;
+      --morning-tab-bg: #FFF3D6;
+      --morning-tab-color: #CC7700;
+
       --evening-bg: #E8EAF6;
       --evening-accent: #5856D6;
-      
+      --evening-icon-bg: #E8EAF6;
+      --evening-tab-bg: #D1D4F4;
+      --evening-tab-color: #4644AA;
+
       --text-dark: #1C1C1E;
       --text-muted: #8E8E93;
       --card-bg: #FFFFFF;
       --success: #34C759;
+
+      --theme-decoration: '';
+    }
+
+    /* ===== SEASONAL THEMES ===== */
+
+    /* Spring: March 20 - June 20 */
+    .theme-spring {
+      --morning-bg: #F0FFF0;
+      --morning-accent: #50C878;
+      --morning-icon-bg: #E8F5E9;
+      --morning-tab-bg: #E8F5E9;
+      --morning-tab-color: #2E7D32;
+      --evening-bg: #FFF0F5;
+      --evening-accent: #DB7093;
+      --evening-icon-bg: #FCE4EC;
+      --evening-tab-bg: #F8BBD9;
+      --evening-tab-color: #AD1457;
+    }
+
+    /* Summer: June 21 - Sept 21 */
+    .theme-summer {
+      --morning-bg: #FFFDE7;
+      --morning-accent: #FFB300;
+      --morning-icon-bg: #FFF8E1;
+      --morning-tab-bg: #FFF8E1;
+      --morning-tab-color: #FF8F00;
+      --evening-bg: #E3F2FD;
+      --evening-accent: #1E88E5;
+      --evening-icon-bg: #BBDEFB;
+      --evening-tab-bg: #BBDEFB;
+      --evening-tab-color: #1565C0;
+    }
+
+    /* Fall: Sept 22 - Dec 20 */
+    .theme-fall {
+      --morning-bg: #FFF3E0;
+      --morning-accent: #E65100;
+      --morning-icon-bg: #FFE0B2;
+      --morning-tab-bg: #FFE0B2;
+      --morning-tab-color: #E65100;
+      --evening-bg: #EFEBE9;
+      --evening-accent: #6D4C41;
+      --evening-icon-bg: #D7CCC8;
+      --evening-tab-bg: #D7CCC8;
+      --evening-tab-color: #5D4037;
+    }
+
+    /* Winter: Dec 21 - March 19 */
+    .theme-winter {
+      --morning-bg: #E8F4FD;
+      --morning-accent: #4FC3F7;
+      --morning-icon-bg: #E1F5FE;
+      --morning-tab-bg: #E1F5FE;
+      --morning-tab-color: #0288D1;
+      --evening-bg: #EDE7F6;
+      --evening-accent: #7E57C2;
+      --evening-icon-bg: #D1C4E9;
+      --evening-tab-bg: #D1C4E9;
+      --evening-tab-color: #512DA8;
+    }
+
+    /* ===== HOLIDAY THEMES ===== */
+
+    /* New Year's Day */
+    .theme-newyear {
+      --morning-bg: #1A1A2E;
+      --morning-accent: #FFD700;
+      --morning-icon-bg: #2D2D44;
+      --morning-tab-bg: #2D2D44;
+      --morning-tab-color: #FFD700;
+      --evening-bg: #0F0F1A;
+      --evening-accent: #C0C0C0;
+      --evening-icon-bg: #1A1A2E;
+      --evening-tab-bg: #1A1A2E;
+      --evening-tab-color: #C0C0C0;
+      --text-dark: #FFFFFF;
+      --text-muted: #B0B0B0;
+      --card-bg: #2D2D44;
+      --success: #FFD700;
+    }
+
+    /* MLK Day */
+    .theme-mlk {
+      --morning-bg: #FFF8E7;
+      --morning-accent: #8B4513;
+      --morning-icon-bg: #FFE4C4;
+      --morning-tab-bg: #FFE4C4;
+      --morning-tab-color: #8B4513;
+      --evening-bg: #F5F5DC;
+      --evening-accent: #228B22;
+      --evening-icon-bg: #E8F5E9;
+      --evening-tab-bg: #E8F5E9;
+      --evening-tab-color: #228B22;
+    }
+
+    /* Valentine's Day */
+    .theme-valentine {
+      --morning-bg: #FFF0F5;
+      --morning-accent: #FF1493;
+      --morning-icon-bg: #FFB6C1;
+      --morning-tab-bg: #FFB6C1;
+      --morning-tab-color: #C71585;
+      --evening-bg: #FFE4E9;
+      --evening-accent: #DC143C;
+      --evening-icon-bg: #FFCDD2;
+      --evening-tab-bg: #FFCDD2;
+      --evening-tab-color: #B71C1C;
+      --success: #FF1493;
+    }
+
+    /* St. Patrick's Day */
+    .theme-stpatrick {
+      --morning-bg: #E8F5E9;
+      --morning-accent: #2E7D32;
+      --morning-icon-bg: #C8E6C9;
+      --morning-tab-bg: #C8E6C9;
+      --morning-tab-color: #1B5E20;
+      --evening-bg: #F1F8E9;
+      --evening-accent: #558B2F;
+      --evening-icon-bg: #DCEDC8;
+      --evening-tab-bg: #DCEDC8;
+      --evening-tab-color: #33691E;
+      --success: #FFD700;
+    }
+
+    /* Easter */
+    .theme-easter {
+      --morning-bg: #FFF9C4;
+      --morning-accent: #AB47BC;
+      --morning-icon-bg: #E1BEE7;
+      --morning-tab-bg: #E1BEE7;
+      --morning-tab-color: #7B1FA2;
+      --evening-bg: #E0F7FA;
+      --evening-accent: #00ACC1;
+      --evening-icon-bg: #B2EBF2;
+      --evening-tab-bg: #B2EBF2;
+      --evening-tab-color: #00838F;
+    }
+
+    /* Memorial Day */
+    .theme-memorial {
+      --morning-bg: #FFEBEE;
+      --morning-accent: #D32F2F;
+      --morning-icon-bg: #FFCDD2;
+      --morning-tab-bg: #FFCDD2;
+      --morning-tab-color: #B71C1C;
+      --evening-bg: #E3F2FD;
+      --evening-accent: #1565C0;
+      --evening-icon-bg: #BBDEFB;
+      --evening-tab-bg: #BBDEFB;
+      --evening-tab-color: #0D47A1;
+    }
+
+    /* Independence Day */
+    .theme-july4 {
+      --morning-bg: #FFEBEE;
+      --morning-accent: #D32F2F;
+      --morning-icon-bg: #FFCDD2;
+      --morning-tab-bg: #FFCDD2;
+      --morning-tab-color: #B71C1C;
+      --evening-bg: #E8EAF6;
+      --evening-accent: #303F9F;
+      --evening-icon-bg: #C5CAE9;
+      --evening-tab-bg: #C5CAE9;
+      --evening-tab-color: #1A237E;
+      --success: #FFFFFF;
+    }
+
+    /* Labor Day */
+    .theme-labor {
+      --morning-bg: #FFF8E1;
+      --morning-accent: #FF8F00;
+      --morning-icon-bg: #FFECB3;
+      --morning-tab-bg: #FFECB3;
+      --morning-tab-color: #E65100;
+      --evening-bg: #E3F2FD;
+      --evening-accent: #1976D2;
+      --evening-icon-bg: #BBDEFB;
+      --evening-tab-bg: #BBDEFB;
+      --evening-tab-color: #0D47A1;
+    }
+
+    /* Halloween */
+    .theme-halloween {
+      --morning-bg: #FFF3E0;
+      --morning-accent: #FF6D00;
+      --morning-icon-bg: #FFE0B2;
+      --morning-tab-bg: #FFE0B2;
+      --morning-tab-color: #E65100;
+      --evening-bg: #1A1A2E;
+      --evening-accent: #9C27B0;
+      --evening-icon-bg: #2D2D44;
+      --evening-tab-bg: #2D2D44;
+      --evening-tab-color: #CE93D8;
+      --text-dark: #FFFFFF;
+      --text-muted: #B0B0B0;
+      --card-bg: #2D2D44;
+    }
+
+    .theme-halloween.morning {
+      --text-dark: #1C1C1E;
+      --text-muted: #8E8E93;
+      --card-bg: #FFFFFF;
+    }
+
+    /* Thanksgiving */
+    .theme-thanksgiving {
+      --morning-bg: #FFF8E1;
+      --morning-accent: #E65100;
+      --morning-icon-bg: #FFE0B2;
+      --morning-tab-bg: #FFE0B2;
+      --morning-tab-color: #BF360C;
+      --evening-bg: #EFEBE9;
+      --evening-accent: #795548;
+      --evening-icon-bg: #D7CCC8;
+      --evening-tab-bg: #D7CCC8;
+      --evening-tab-color: #4E342E;
+      --success: #FF8F00;
+    }
+
+    /* Christmas */
+    .theme-christmas {
+      --morning-bg: #FFEBEE;
+      --morning-accent: #C62828;
+      --morning-icon-bg: #FFCDD2;
+      --morning-tab-bg: #FFCDD2;
+      --morning-tab-color: #B71C1C;
+      --evening-bg: #E8F5E9;
+      --evening-accent: #2E7D32;
+      --evening-icon-bg: #C8E6C9;
+      --evening-tab-bg: #C8E6C9;
+      --evening-tab-color: #1B5E20;
+      --success: #FFD700;
+    }
+
+    /* ===== BIRTHDAY THEME ===== */
+    .theme-birthday {
+      --morning-bg: linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #00CED1 100%);
+      --morning-accent: #FF1493;
+      --morning-icon-bg: rgba(255, 255, 255, 0.9);
+      --morning-tab-bg: rgba(255, 255, 255, 0.9);
+      --morning-tab-color: #FF1493;
+      --evening-bg: linear-gradient(135deg, #9400D3 0%, #FF1493 50%, #FFD700 100%);
+      --evening-accent: #FFD700;
+      --evening-icon-bg: rgba(255, 255, 255, 0.9);
+      --evening-tab-bg: rgba(255, 255, 255, 0.9);
+      --evening-tab-color: #9400D3;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --success: #FFD700;
+    }
+
+    .theme-birthday.morning {
+      background: linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #00CED1 100%) !important;
+    }
+
+    .theme-birthday.evening {
+      background: linear-gradient(135deg, #9400D3 0%, #FF1493 50%, #FFD700 100%) !important;
+    }
+
+    /* Birthday banner */
+    .birthday-banner {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: clamp(16px, 4vw, 20px);
+      box-shadow: 0 4px 20px rgba(255, 20, 147, 0.3);
+      animation: birthday-glow 2s ease-in-out infinite;
+    }
+
+    .theme-birthday .birthday-banner {
+      display: block;
+    }
+
+    .birthday-banner-text {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, #FF1493, #FFD700, #00CED1, #FF1493);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow-text 3s linear infinite;
+    }
+
+    .birthday-banner-emoji {
+      font-size: clamp(2rem, 6vw, 2.5rem);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes birthday-glow {
+      0%, 100% { box-shadow: 0 4px 20px rgba(255, 20, 147, 0.3); }
+      50% { box-shadow: 0 4px 30px rgba(255, 215, 0, 0.5); }
+    }
+
+    @keyframes rainbow-text {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Theme indicator */
+    .theme-indicator {
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
     }
 
     * {
@@ -96,25 +423,25 @@
     }
 
     .tab.morning-tab {
-      background: #FFF3D6;
-      color: #CC7700;
+      background: var(--morning-tab-bg);
+      color: var(--morning-tab-color);
     }
 
     .tab.morning-tab.active {
       background: var(--morning-accent);
       color: white;
-      box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .tab.evening-tab {
-      background: #D1D4F4;
-      color: #4644AA;
+      background: var(--evening-tab-bg);
+      color: var(--evening-tab-color);
     }
 
     .tab.evening-tab.active {
       background: var(--evening-accent);
       color: white;
-      box-shadow: 0 4px 12px rgba(88, 86, 214, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .tab-icon {
@@ -208,11 +535,11 @@
     }
 
     body.morning .task-icon {
-      background: #FFF3D6;
+      background: var(--morning-icon-bg);
     }
 
     body.evening .task-icon {
-      background: #E8EAF6;
+      background: var(--evening-icon-bg);
     }
 
     .task.completed .task-icon {
@@ -334,7 +661,15 @@
   </style>
 </head>
 <body class="morning">
+  <canvas id="confetti-canvas"></canvas>
   <div class="container">
+    <div class="birthday-banner">
+      <span class="birthday-banner-emoji">🎂🎈🎁</span>
+      <span class="birthday-banner-text">Happy Birthday, Sean!</span>
+    </div>
+
+    <div class="theme-indicator" id="theme-indicator"></div>
+
     <header class="header">
       <h1>Sean's Checklist</h1>
       <p class="date" id="currentDate"></p>
@@ -397,8 +732,236 @@
     ];
 
     let currentTab = 'morning';
+    let currentTheme = '';
 
     const STORAGE_KEY = 'seans-checklist';
+
+    // ===== THEME DETECTION =====
+
+    const themeDecorations = {
+      spring: '🌸🌷🌱',
+      summer: '☀️🏖️🌴',
+      fall: '🍂🍁🎃',
+      winter: '❄️⛄🌨️',
+      newyear: '🎆🥳✨',
+      mlk: '✊🕊️💫',
+      valentine: '💕❤️💘',
+      stpatrick: '☘️🍀💚',
+      easter: '🐰🥚🌷',
+      memorial: '🇺🇸🎗️🦅',
+      july4: '🇺🇸🎆🗽',
+      labor: '💪🔧⚙️',
+      halloween: '🎃👻🦇',
+      thanksgiving: '🦃🍽️🌽',
+      christmas: '🎄🎅🎁',
+      birthday: '🎂🎈🎉'
+    };
+
+    function getNthDayOfMonth(year, month, dayOfWeek, n) {
+      const firstDay = new Date(year, month, 1);
+      let day = 1 + ((dayOfWeek - firstDay.getDay() + 7) % 7);
+      day += (n - 1) * 7;
+      return new Date(year, month, day);
+    }
+
+    function getLastDayOfMonth(year, month, dayOfWeek) {
+      const lastDay = new Date(year, month + 1, 0);
+      const diff = (lastDay.getDay() - dayOfWeek + 7) % 7;
+      return new Date(year, month, lastDay.getDate() - diff);
+    }
+
+    function getEasterDate(year) {
+      const a = year % 19;
+      const b = Math.floor(year / 100);
+      const c = year % 100;
+      const d = Math.floor(b / 4);
+      const e = b % 4;
+      const f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30;
+      const i = Math.floor(c / 4);
+      const k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7;
+      const m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const month = Math.floor((h + l - 7 * m + 114) / 31) - 1;
+      const day = ((h + l - 7 * m + 114) % 31) + 1;
+      return new Date(year, month, day);
+    }
+
+    function isSameDay(d1, d2) {
+      return d1.getFullYear() === d2.getFullYear() &&
+             d1.getMonth() === d2.getMonth() &&
+             d1.getDate() === d2.getDate();
+    }
+
+    function getHoliday(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const day = date.getDate();
+
+      // Birthday: June 17
+      if (month === 5 && day === 17) return 'birthday';
+
+      // New Year's Day: January 1
+      if (month === 0 && day === 1) return 'newyear';
+
+      // MLK Day: 3rd Monday of January
+      if (isSameDay(date, getNthDayOfMonth(year, 0, 1, 3))) return 'mlk';
+
+      // Valentine's Day: February 14
+      if (month === 1 && day === 14) return 'valentine';
+
+      // St. Patrick's Day: March 17
+      if (month === 2 && day === 17) return 'stpatrick';
+
+      // Easter Sunday
+      if (isSameDay(date, getEasterDate(year))) return 'easter';
+
+      // Memorial Day: Last Monday of May
+      if (isSameDay(date, getLastDayOfMonth(year, 4, 1))) return 'memorial';
+
+      // Independence Day: July 4
+      if (month === 6 && day === 4) return 'july4';
+
+      // Labor Day: 1st Monday of September
+      if (isSameDay(date, getNthDayOfMonth(year, 8, 1, 1))) return 'labor';
+
+      // Halloween: October 31
+      if (month === 9 && day === 31) return 'halloween';
+
+      // Thanksgiving: 4th Thursday of November
+      if (isSameDay(date, getNthDayOfMonth(year, 10, 4, 4))) return 'thanksgiving';
+
+      // Christmas: December 25
+      if (month === 11 && day === 25) return 'christmas';
+
+      return null;
+    }
+
+    function getSeason(date) {
+      const month = date.getMonth();
+      const day = date.getDate();
+
+      // Spring: March 20 - June 20
+      if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day <= 20)) {
+        return 'spring';
+      }
+      // Summer: June 21 - September 21
+      if ((month === 5 && day >= 21) || month === 6 || month === 7 || (month === 8 && day <= 21)) {
+        return 'summer';
+      }
+      // Fall: September 22 - December 20
+      if ((month === 8 && day >= 22) || month === 9 || month === 10 || (month === 11 && day <= 20)) {
+        return 'fall';
+      }
+      // Winter: December 21 - March 19
+      return 'winter';
+    }
+
+    function getTheme(date) {
+      const holiday = getHoliday(date);
+      if (holiday) return holiday;
+      return getSeason(date);
+    }
+
+    function applyTheme() {
+      const today = new Date();
+      currentTheme = getTheme(today);
+
+      // Update theme indicator
+      const indicator = document.getElementById('theme-indicator');
+      indicator.textContent = themeDecorations[currentTheme] || '';
+
+      // Apply theme class
+      updateBodyClasses();
+
+      // Start confetti for birthday
+      if (currentTheme === 'birthday') {
+        startConfetti();
+      }
+    }
+
+    function updateBodyClasses() {
+      const themeClass = `theme-${currentTheme}`;
+      document.body.className = `${themeClass} ${currentTab}`;
+    }
+
+    // ===== CONFETTI =====
+
+    let confettiAnimationId = null;
+    const confettiParticles = [];
+
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      const colors = ['#FF1493', '#FFD700', '#00CED1', '#9400D3', '#FF69B4', '#32CD32'];
+
+      function createParticle() {
+        return {
+          x: Math.random() * canvas.width,
+          y: -20,
+          size: Math.random() * 10 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: Math.random() * 4 - 2,
+          rotation: Math.random() * 360,
+          rotationSpeed: Math.random() * 10 - 5,
+          shape: Math.random() > 0.5 ? 'rect' : 'circle'
+        };
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Add new particles
+        if (confettiParticles.length < 100 && Math.random() > 0.7) {
+          confettiParticles.push(createParticle());
+        }
+
+        // Update and draw particles
+        for (let i = confettiParticles.length - 1; i >= 0; i--) {
+          const p = confettiParticles[i];
+
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += p.rotationSpeed;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+
+          if (p.shape === 'rect') {
+            ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+          } else {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.restore();
+
+          // Remove particles that are off screen
+          if (p.y > canvas.height + 20) {
+            confettiParticles.splice(i, 1);
+          }
+        }
+
+        confettiAnimationId = requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    // ===== CHECKLIST LOGIC =====
 
     function getStorageKey() {
       const today = new Date().toISOString().split('T')[0];
@@ -422,12 +985,12 @@
 
     function switchTab(tab) {
       currentTab = tab;
-      
-      document.body.className = tab;
-      
+
+      updateBodyClasses();
+
       document.querySelector('.morning-tab').classList.toggle('active', tab === 'morning');
       document.querySelector('.evening-tab').classList.toggle('active', tab === 'evening');
-      
+
       render();
     }
 
@@ -442,10 +1005,10 @@
       const state = loadState();
       const tasks = currentTab === 'morning' ? morningTasks : eveningTasks;
       const completed = state[currentTab];
-      
+
       const taskList = document.getElementById('task-list');
       taskList.innerHTML = '';
-      
+
       tasks.forEach((task, i) => {
         const isCompleted = completed[i];
         const div = document.createElement('div');
@@ -462,14 +1025,14 @@
         div.addEventListener('click', () => toggleTask(i));
         taskList.appendChild(div);
       });
-      
+
       const doneCount = completed.filter(Boolean).length;
       const total = tasks.length;
       const percent = (doneCount / total) * 100;
-      
+
       document.getElementById('progress-count').textContent = `${doneCount} / ${total}`;
       document.getElementById('progress-fill').style.width = `${percent}%`;
-      
+
       const allDone = document.getElementById('all-done');
       if (doneCount === total) {
         allDone.classList.add('visible', 'celebrate');
@@ -494,6 +1057,8 @@
       document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', options);
     }
 
+    // Initialize
+    applyTheme();
     updateDate();
     render();
   </script>
