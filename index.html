@@ -865,7 +865,9 @@
     }
 
     function applyTheme() {
-      const today = new Date();
+      // TEST: Simulate June 17 for birthday theme
+      const today = new Date(2025, 5, 17); // June 17
+      // const today = new Date();
       currentTheme = getTheme(today);
 
       // Update theme indicator
